@@ -1,0 +1,979 @@
+/* ─────────────────────────────────────────────
+   SOKO Café & Bakery — palette pulled from the brand mockups
+   ───────────────────────────────────────────── */
+:root {
+  --brown: #3e2200;       /* logo ink / dark card / main background */
+  --brown-deep: #2c1800;
+  --cream: #ead1b3;       /* artboard wordmark / panels / footer */
+  --cream-dark: #dcbf99;  /* footer legal bar */
+  --blush: #f8eee7;       /* cat fill / buttons */
+  --orange: #d15a0e;      /* accent rule on cards & menu */
+  --green: #2f4a3a;       /* tiled shop wall (sparingly) */
+
+  --f-script: "Mali", ui-rounded, system-ui, sans-serif;
+  --f-serif: "Spectral", Georgia, serif;
+  --f-label: "Quicksand", system-ui, sans-serif;
+
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  background: var(--brown);
+  color: var(--cream);
+  font-family: var(--f-serif);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: var(--orange);
+  color: var(--blush);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.script {
+  font-family: var(--f-script);
+  font-weight: 700;
+  font-size: clamp(36px, 4vw, 60px);
+  line-height: 1.1;
+  margin: 0 0 0.6em;
+  letter-spacing: -0.01em;
+}
+.ink {
+  color: var(--brown);
+}
+
+/* ───────────── Header ───────────── */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 18px 3vw;
+  color: var(--cream);
+  pointer-events: none;
+  transition: color 0.35s var(--ease);
+}
+.site-header > * {
+  pointer-events: auto;
+}
+.site-header.is-light {
+  color: var(--brown);
+}
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-decoration: none;
+  width: max-content;
+}
+.brand img {
+  height: 52px;
+  width: auto;
+  aspect-ratio: 1400 / 1055;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.brand span {
+  font-family: var(--f-label);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+.burger {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  color: inherit;
+}
+.burger span {
+  display: block;
+  width: 34px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 2px;
+  transition: transform 0.4s var(--ease);
+}
+.burger.is-open span:first-child {
+  transform: translateY(5px) rotate(45deg);
+}
+.burger.is-open span:last-child {
+  transform: translateY(-5px) rotate(-45deg);
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: var(--brown-deep);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  clip-path: circle(0% at 50% 40px);
+  transition: clip-path 0.8s var(--ease);
+  visibility: hidden;
+}
+.menu-overlay.is-open {
+  clip-path: circle(150% at 50% 40px);
+  visibility: visible;
+}
+.menu-overlay ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+.menu-overlay li {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+.menu-overlay.is-open li {
+  opacity: 1;
+  transform: none;
+}
+.menu-overlay a {
+  font-family: var(--f-script);
+  font-weight: 700;
+  font-size: clamp(40px, 7vw, 92px);
+  line-height: 1.15;
+  text-decoration: none;
+  color: var(--cream);
+  display: inline-block;
+  transition: color 0.3s, transform 0.3s var(--ease);
+}
+.menu-overlay a:hover,
+.menu-overlay a:focus-visible {
+  color: var(--orange);
+  transform: rotate(-3deg);
+}
+.menu-foot {
+  position: absolute;
+  bottom: 5vh;
+  left: 3vw;
+  font-family: var(--f-label);
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  text-transform: uppercase;
+  opacity: 0.7;
+}
+.menu-cat {
+  position: absolute;
+  right: 3vw;
+  bottom: 4vh;
+  width: 20vw;
+  opacity: 0.1;
+}
+
+/* ───────────── Floating cut-outs ───────────── */
+.float {
+  position: absolute;
+  z-index: 1;
+  will-change: transform;
+  pointer-events: none;
+}
+.float img {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 28px 36px rgba(0, 0, 0, 0.45));
+  user-select: none;
+}
+/* Inner wrapper: resting rotation + load fly-in. The outer .float only ever
+   carries the scroll-parallax translate, so the two never overwrite each other. */
+.float-inner {
+  transform: rotate(var(--r, 0deg));
+}
+.float-inner.fly {
+  will-change: transform;
+  animation: flyIn 800ms cubic-bezier(0.22, 1.2, 0.36, 1) var(--fd, 0ms) both paused;
+}
+.float-inner.fly.is-ready {
+  animation-play-state: running;
+}
+@keyframes flyIn {
+  from {
+    opacity: 0;
+    transform: translate(var(--fx, 0), var(--fy, 0)) rotate(calc(var(--r, 0deg) + var(--fr, 0deg)));
+  }
+  to {
+    opacity: 1;
+    transform: rotate(var(--r, 0deg));
+  }
+}
+
+/* ───────────── Tilted tag buttons ───────────── */
+.tag-btn {
+  display: inline-block;
+  white-space: nowrap;
+  background: var(--blush);
+  color: var(--brown);
+  font-family: var(--f-serif);
+  font-size: clamp(15px, 1.25vw, 19px);
+  letter-spacing: 0.18em;
+  text-decoration: none;
+  padding: 0.95em 2.4em;
+  transform: rotate(-4deg);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+  transition: transform 0.45s var(--ease), background 0.3s, color 0.3s;
+}
+.tag-btn:hover,
+.tag-btn:focus-visible {
+  transform: rotate(0deg) scale(1.04);
+  background: var(--orange);
+  color: var(--blush);
+}
+
+/* ───────────── Hero ───────────── */
+.hero {
+  position: relative;
+  /* own layer above the next section's cut-outs, so only the four hero
+     objects appear on the first screen */
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  height: 100svh;
+  min-height: 700px;
+  padding: clamp(110px, 15svh, 160px) 5vw clamp(100px, 14svh, 150px);
+  --float-inset: 32px;
+  isolation: isolate;
+  background: var(--brown);
+  /* The resting and scrolling artwork is bounded by Float. Let entrance
+     animations and soft shadows cross this local section seam naturally. */
+  overflow: visible;
+}
+.hero-mark {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 3svh, 36px);
+  z-index: 2;
+  width: min(44vw, 620px, calc(44svh * 1400 / 1055));
+}
+.hero-mark img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1400 / 1055;
+  object-fit: contain;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.25));
+}
+.hero-btn {
+  position: relative;
+  flex-shrink: 0;
+  z-index: 3;
+}
+
+/* Landed positions: one object per corner zone, fully inside the first screen
+   and clear of the logo. --fx/--fy describe where each one flies in from (just
+   beyond its nearest side edge), --fr its extra spin, --fd its stagger delay. */
+.f-hero-brown {
+  width: clamp(140px, 15vw, 240px);
+  top: 23%;
+  left: 6%;
+  --fx: -30vw;
+  --fy: -18vh;
+  --fr: -8deg;
+  --fd: 100ms;
+}
+.f-hero-biz {
+  width: clamp(140px, 16vw, 250px);
+  top: 22%;
+  right: 5%;
+  --fx: 30vw;
+  --fy: -18vh;
+  --fr: 8deg;
+  --fd: 200ms;
+}
+.f-hero-cream {
+  width: clamp(150px, 17vw, 270px);
+  bottom: 13%;
+  left: 6%;
+  --fx: -30vw;
+  --fy: 18vh;
+  --fr: -8deg;
+  --fd: 300ms;
+}
+/* Box + bag product shot, bottom-right. Sized and placed so its left edge
+   stays 32px+ clear of the logo and the Explore Menu button. */
+.f-hero-pair {
+  width: clamp(180px, 22vw, 350px);
+  bottom: 12%;
+  right: 5%;
+  --fx: 40%;
+  --fy: 150%;
+  --fr: -8deg;
+  --fd: 400ms;
+}
+/* The pair's frame is 5:4; the insets below keep both rotated cut-outs
+   (croissant tip included) inside it, so the frame is the group's true box. */
+.pair {
+  position: relative;
+  aspect-ratio: 5 / 4;
+}
+.pair img {
+  position: absolute;
+  max-width: none;
+  filter: drop-shadow(0 24px 32px rgba(0, 0, 0, 0.45));
+}
+.pair .pair-box {
+  left: 3%;
+  top: 7.5%;
+  width: 68%;
+  transform: rotate(8deg);
+}
+.pair .pair-bag {
+  left: 45%;
+  top: 15%;
+  width: 46%;
+  transform: rotate(18deg);
+}
+
+/* ───────────── Intro ───────────── */
+.intro {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 26vh 6vw 30vh;
+  text-align: center;
+}
+.intro-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 600px;
+}
+.intro-copy p {
+  margin: 0 0 2.4em;
+}
+.text-link {
+  font-family: var(--f-serif);
+  letter-spacing: 0.2em;
+  text-decoration: none;
+  font-size: 17px;
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat;
+  padding-bottom: 4px;
+  transition: background-size 0.4s var(--ease), color 0.3s;
+}
+.text-link:hover {
+  background-size: 100% 1px;
+  color: var(--blush);
+}
+.f-intro-biz {
+  width: 23vw;
+  top: 16vh;
+  left: -3vw;
+}
+.f-intro-bag {
+  width: 21vw;
+  top: 14vh;
+  right: -2vw;
+}
+
+/* ───────────── Products panel ───────────── */
+.bakes-wrap {
+  position: relative;
+  z-index: 3;
+  padding: 0 2.5vw;
+}
+.panel {
+  position: relative;
+  background: var(--cream);
+  color: var(--brown);
+  text-align: center;
+  padding: 16vh 5vw 18vh;
+}
+.notch {
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: 116px;
+  height: 58px;
+  background: var(--brown);
+  border-radius: 0 0 116px 116px;
+  transform: translateX(-50%);
+}
+.panel-lede {
+  max-width: 620px;
+  margin: 0 auto 10vh;
+}
+.bakes {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1180px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4vw;
+}
+/* floating cut-out food shots (no circle crop), like the reference */
+.bake img {
+  width: 100%;
+  max-width: 230px;
+  aspect-ratio: 1;
+  margin: 0 auto 26px;
+  object-fit: contain;
+  filter: drop-shadow(0 22px 22px rgba(62, 34, 0, 0.35));
+  transition: transform 0.6s var(--ease);
+}
+.bake:hover img {
+  transform: rotate(8deg) scale(1.05);
+}
+.bake h3 {
+  font-family: var(--f-serif);
+  font-weight: 500;
+  font-size: 18px;
+  margin: 0 0 4px;
+}
+.price {
+  font-family: var(--f-script);
+  font-weight: 700;
+  font-size: 22px;
+  margin: 0;
+}
+.price::after {
+  content: "";
+  display: block;
+  width: 26px;
+  height: 2px;
+  background: var(--orange);
+  margin: 8px auto 0;
+}
+.panel-btn {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  translate: -50% 50%;
+  white-space: nowrap;
+}
+
+/* ───────────── Testimonial ───────────── */
+.quote {
+  position: relative;
+  padding: 20vh 6vw 22vh;
+  text-align: center;
+}
+/* smaller type, scoped to this section only */
+.quote .script {
+  font-size: clamp(28px, 2.8vw, 42px);
+  margin-bottom: 0.8em;
+}
+.quote-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.quote blockquote {
+  margin: 0;
+  font-family: var(--f-serif);
+  font-size: clamp(19px, 1.9vw, 28px);
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  max-width: 760px;
+  margin: 0 auto;
+  color: var(--blush);
+}
+.quote .cite {
+  margin-top: 2em;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+}
+/* Food cut-outs. Each stays in the side margin beside the 760px text column
+   (inner edge 32px+ away from it), so the parallax drift can never carry one
+   across the text; the outer edge may be cropped by the screen. */
+.quote .float img {
+  filter: drop-shadow(0 26px 30px rgba(0, 0, 0, 0.45));
+}
+.f-q-cookie {
+  width: 18vw;
+  top: 4vh;
+  left: -3vw;
+}
+.f-q-coffee {
+  width: 10.5vw;
+  top: 10vh;
+  right: 2vw;
+}
+.f-q-cake {
+  width: 16vw;
+  bottom: -4vh;
+  left: 0.5vw;
+}
+.f-q-croissant {
+  width: 18vw;
+  bottom: 2vh;
+  right: -2vw;
+}
+/* narrower screens: slim the text column so the side margins still fit the food */
+@media (max-width: 1100px) {
+  .quote blockquote {
+    max-width: 58vw;
+  }
+}
+
+/* ───────────── Gallery ───────────── */
+.kitchen {
+  position: relative;
+  z-index: 2;
+  padding: 4vh 0 18vh;
+  text-align: center;
+}
+.gallery {
+  position: relative;
+  margin-top: 2vh;
+}
+.gallery-track {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 0 2.5vw;
+  scroll-padding: 0 2.5vw;
+  scrollbar-width: none;
+}
+.gallery-track::-webkit-scrollbar {
+  display: none;
+}
+.shot {
+  margin: 0;
+  flex: 0 0 auto;
+  height: clamp(300px, 44vh, 460px);
+  scroll-snap-align: start;
+  overflow: hidden;
+}
+.shot--wide {
+  width: clamp(380px, 34vw, 600px);
+}
+.shot--narrow {
+  width: clamp(220px, 16vw, 300px);
+}
+.shot--square {
+  width: clamp(300px, 24vw, 440px);
+}
+.shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1s var(--ease);
+}
+.shot:hover img {
+  transform: scale(1.06);
+}
+.g-arrow {
+  position: absolute;
+  top: 50%;
+  translate: 0 -50%;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 0;
+  background: var(--brown);
+  color: var(--blush);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transition: background 0.3s, transform 0.3s var(--ease);
+}
+.g-arrow[hidden] {
+  display: none;
+}
+.g-arrow:hover {
+  background: var(--orange);
+  transform: scale(1.08);
+}
+.g-next {
+  right: 4vw;
+}
+.g-prev {
+  left: 4vw;
+}
+
+/* ───────────── Footer ───────────── */
+.footer {
+  position: relative;
+  background: var(--cream);
+  color: var(--brown);
+  padding: 18vh 0 0;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 0.45fr;
+  grid-template-areas:
+    "join info nav"
+    "join mark mark";
+  gap: 4vh 4vw;
+  padding: 0 3vw 6vh;
+  align-items: start;
+}
+.footer-join {
+  grid-area: join;
+  max-width: 440px;
+}
+.footer-join > p {
+  margin: 0 0 3em;
+  font-size: 17px;
+}
+.footer-info {
+  grid-area: info;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  padding-top: 13vh;
+}
+.footer-info address {
+  font-style: normal;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.4em;
+}
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4em 2em;
+  margin: 0;
+}
+.contact a,
+.footer-nav a,
+.legal a {
+  text-decoration: none;
+  transition: color 0.25s;
+}
+.contact a:hover,
+.footer-nav a:hover,
+.legal a:hover {
+  color: var(--orange);
+}
+.footer-nav {
+  grid-area: nav;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  padding-top: 10vh;
+  letter-spacing: 0.08em;
+  font-size: 16px;
+}
+.footer-mark {
+  grid-area: mark;
+  justify-self: end;
+  width: min(100%, 520px);
+  height: auto;
+}
+
+.newsletter {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 380px;
+}
+.newsletter label {
+  font-size: 13px;
+  letter-spacing: 0.04em;
+}
+.newsletter input[type="email"] {
+  font: inherit;
+  color: var(--brown);
+  background: transparent;
+  border: 0;
+  border-bottom: 1.5px solid var(--brown);
+  padding: 10px 0;
+  outline: none;
+}
+.newsletter input[type="email"]:focus {
+  border-color: var(--orange);
+}
+.nl-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+.nl-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--brown);
+}
+.newsletter button {
+  align-self: center;
+  margin-top: 10px;
+  font-family: var(--f-script);
+  font-weight: 700;
+  font-size: 18px;
+  background: none;
+  border: 0;
+  color: var(--brown);
+  cursor: pointer;
+  padding: 6px 18px;
+  transition: color 0.25s, transform 0.3s var(--ease);
+}
+.newsletter button:hover {
+  color: var(--orange);
+  transform: rotate(-4deg);
+}
+.nl-done {
+  font-family: var(--f-script);
+  font-weight: 600;
+  font-size: 22px;
+}
+
+.legal {
+  background: var(--cream-dark);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px 30px;
+  padding: 14px 3vw;
+  font-size: 14px;
+}
+.legal nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 30px;
+}
+.legal p {
+  margin: 0;
+}
+
+/* ───────────── Reveal ───────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  filter: blur(10px);
+  transition: opacity 1s var(--ease), transform 1s var(--ease), filter 1s var(--ease);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
+  /* no fly-in: objects sit at their landed position (base rule keeps the rotation) */
+  .float-inner.fly {
+    animation: none;
+  }
+}
+
+/* ───────────── Responsive ───────────── */
+@media (max-width: 960px) {
+  .hero-mark {
+    width: min(46vw, calc(40svh * 1400 / 1055));
+  }
+  .hero .float {
+    --parallax: 0.55;
+  }
+  .f-hero-brown,
+  .f-hero-biz {
+    width: 18vw;
+  }
+  .f-hero-cream {
+    width: 20vw;
+  }
+  .f-hero-pair {
+    width: 20vw;
+  }
+  .bakes {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 8vh;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "join join"
+      "info nav"
+      "mark mark";
+  }
+  .footer-info,
+  .footer-nav {
+    padding-top: 2vh;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+  .brand img {
+    height: 40px;
+  }
+  .brand span {
+    font-size: 9px;
+  }
+  .hero {
+    height: 100svh;
+    min-height: 700px;
+    padding: 120px 5vw 110px;
+    --float-inset: 24px;
+  }
+  .hero-mark {
+    width: min(74vw, calc(30svh * 1400 / 1055));
+    gap: 22px;
+  }
+  .hero .float {
+    --parallax: 0.3;
+  }
+  /* two cards in the band above the logo, the cream card and the box + bag
+     pair in the band below the button; the svh caps shrink them on short
+     phones so the bands still fit */
+  .f-hero-brown {
+    width: min(30vw, 124px);
+    top: 17%;
+    left: 7%;
+    --fx: -55vw;
+  }
+  .f-hero-biz {
+    width: min(30vw, 124px);
+    top: 17%;
+    right: 7%;
+    --fx: 55vw;
+  }
+  .f-hero-cream {
+    width: min(30vw, 140px);
+    bottom: 10%;
+    left: 7%;
+    --fx: -55vw;
+  }
+  .f-hero-pair {
+    width: min(38vw, 180px);
+    bottom: 7%;
+    right: 6%;
+    --fx: 60vw;
+  }
+  .f-intro-biz {
+    width: 44vw;
+    left: -12vw;
+    top: -6vh;
+  }
+  .f-intro-bag {
+    width: 36vw;
+    right: -12vw;
+    top: auto;
+    bottom: 2vh;
+  }
+  .intro {
+    padding: 26vh 7vw;
+  }
+  /* only the cookie and croissant, tucked into the corners above/below the text */
+  .f-q-coffee,
+  .f-q-cake {
+    display: none;
+  }
+  /* there is no side margin on a phone, so the drift is toned right down to
+     keep both items in their corners instead of sliding across the text */
+  .quote .float {
+    --parallax: 0.15;
+  }
+  .f-q-cookie {
+    width: 34vw;
+    top: -2vh;
+    left: -4vw;
+  }
+  .f-q-croissant {
+    width: 34vw;
+    bottom: 1vh;
+    right: -4vw;
+  }
+  .quote .script {
+    font-size: 28px;
+  }
+  .quote blockquote {
+    font-size: 18px;
+    max-width: none;
+  }
+  .bakes {
+    gap: 6vw;
+  }
+  .shot {
+    height: 340px;
+  }
+  .shot--wide {
+    width: 82vw;
+  }
+  .shot--narrow {
+    width: 60vw;
+  }
+  .shot--square {
+    width: 74vw;
+  }
+  .g-prev {
+    display: none;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "join" "info" "nav" "mark";
+  }
+  .footer-mark {
+    justify-self: center;
+  }
+  .legal {
+    flex-direction: column;
+  }
+}
+
+/* Short phones keep all three artwork bands within the first screen. */
+@media (max-width: 640px) and (max-height: 700px) {
+  .hero {
+    min-height: 560px;
+    padding: 100px 5vw 80px;
+  }
+  .hero-mark {
+    width: min(68vw, calc(27svh * 1400 / 1055));
+    gap: 18px;
+  }
+  .f-hero-brown,
+  .f-hero-biz,
+  .f-hero-cream {
+    width: min(28vw, 13svh);
+  }
+  .f-hero-pair {
+    width: min(36vw, 20svh);
+  }
+}
