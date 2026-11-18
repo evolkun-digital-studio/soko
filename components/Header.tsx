@@ -74,7 +74,7 @@ export default function Header() {
         </ul>
         <p className="menu-foot">Slow coffee. Fresh bakes. · hello@sokocafe.com</p>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img className="menu-cat" src="/img/logo-mark-cream.svg" alt="" aria-hidden />
+        <img className="menu-cat" src="/img/logo-cream.png" alt="" aria-hidden />
       </nav>
     </>
   );

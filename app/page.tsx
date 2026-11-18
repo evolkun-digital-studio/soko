@@ -157,7 +157,7 @@ export default function Home() {
           </nav>
 
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img className="footer-mark" src="/img/logo-full.svg" alt="SOKO" loading="lazy" />
+          <img className="footer-mark" src="/img/logo-full.png" alt="SOKO — a sleeping cat resting on the wordmark" width={1400} height={1055} loading="lazy" />
         </div>
 
         <div className="legal">

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "SOKO Café & Bakery — Slow coffee. Fresh bakes.",
   description:
     "SOKO is a cosy café & bakery for slow coffee, flaky croissants and good days. Visit us, order a SOKO box, or join the neighbourhood list.",
-  icons: { icon: "/img/logo-mark-brown.svg" },
+  icons: { icon: "/img/logo-full.png" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
